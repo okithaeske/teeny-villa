@@ -1,101 +1,122 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { NextPage } from 'next';
+import Head from 'next/head';
+import Navbar from '../../components/Navbar';
+import styles from './styles/Home.module.css';
+import { FaMapMarkerAlt, FaTwitter, FaFacebook, FaInstagram } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+
+const HomePage: NextPage = () => {
+  const villaPhotos = [
+    'Front View', 
+    'Living Room', 
+    'Bedroom',
+    'Kitchen',
+    'Garden',
+    'Pool Area'
+  ];
+  
+  const [currentPhoto, setCurrentPhoto] = useState(0);
+
+  useEffect(() => {
+    // Set up an interval to change the photo every 5 seconds
+    const interval = setInterval(() => {
+      // Cycle through photos forward-only
+      setCurrentPhoto((prevPhoto) => {
+        if (prevPhoto < villaPhotos.length - 1) {
+          return prevPhoto + 1;
+        } else {
+          // Reset to the first photo after the last one
+          return 0;
+        }
+      });
+    }, 5000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
+  }, [villaPhotos.length]);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div>
+      <Head>
+        <title>Teeny Villa - Home</title>
+      </Head>
+      <Navbar />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Hero Section with Parallax Effect and Image */}
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <h1>Welcome to Teeny Villa</h1>
+          <p>Experience luxury in the heart of nature.</p>
+          <button className={styles.ctaButton}>Book Now</button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+        <div className={styles.heroImage}>
+          <img src="/images/hero.jpg" alt="Teeny Villa Hero" />
+        </div>
+      </section>
+
+    {/* Featured Photos */}
+    <section className={styles.featured}>
+        <h2>Photos of Teeny Villa</h2>
+        <div className={styles.featuredGrid}>
+          {villaPhotos.map((photo, index) => (
+            <div 
+              key={index} 
+              className={`${styles.card} ${index === currentPhoto ? styles.active : ''}`}
+              style={{ 
+                transform: `translateX(${(index - currentPhoto) * 100}%)`,
+                opacity: index === currentPhoto ? 1 : 0.5,
+                zIndex: index === currentPhoto ? 2 : 1,
+                transition: 'all 0.5s ease-out'
+              }}
+            >
+              <div className={styles.cardImageWrapper}>
+                <img src={`/images/villa-photo${index + 1}.jpg`} alt={photo} className={styles.cardImage} />
+              </div>
+              <h3>{photo}</h3>
+              <p>Take a closer look at our beautiful villa.</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Interactive Map */}
+      <section className={styles.mapSection}>
+        <h2>Our Locations</h2>
+        <div className={styles.mapContainer}>
+          <FaMapMarkerAlt className={styles.mapIcon} />
+          <p>Explore our villas on the map below:</p>
+          <div className={styles.mapPlaceholder}>Map goes here</div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className={styles.testimonials}>
+        <h2>What Our Guests Say</h2>
+        <div className={styles.testimonialsContainer}>
+          {['John Doe', 'Jane Smith', 'Mike Johnson'].map((guest, index) => (
+            <div key={index} className={`${styles.testimonialCard} ${index === 0 ? styles.active : ''}`}>
+              <p>"Teeny Villa provided an unforgettable experience with their exceptional service and beautiful locations."</p>
+              <h4>{guest}</h4>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className={styles.footer}>
+        <div className={styles.footerContent}>
+          <p>© 2023 Teeny Villa. All rights reserved.</p>
+          <div className={styles.socialIcons}>
+            <a href="https://twitter.com/teenyvilla" target="_blank" rel="noopener noreferrer"><FaTwitter className={styles.socialIcon} /></a>
+            <a href="https://facebook.com/teenyvilla" target="_blank" rel="noopener noreferrer"><FaFacebook className={styles.socialIcon} /></a>
+            <a href="https://instagram.com/teenyvilla" target="_blank" rel="noopener noreferrer"><FaInstagram className={styles.socialIcon} /></a>
+          </div>
+        </div>
       </footer>
     </div>
   );
-}
+};
+
+export default HomePage;
