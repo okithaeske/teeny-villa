@@ -23,7 +23,8 @@ const Navbar: React.FC = () => {
       alignItems: 'center',
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
       position: 'relative',
-      zIndex: 20,
+      zIndex: 100,
+
     }}>
       <Link href="/" style={{ fontSize: '1.5em', fontWeight: 'bold', textDecoration: 'none', color: '#333' }}>
         Teeny Villa
