@@ -1,10 +1,10 @@
 "use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import styles from './styles/Navbar.module.css'; // Adjust the path if necessary
+/*
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import styles from "./styles/Navbar.module.css"; // Adjust the path if necessary
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -15,87 +15,101 @@ const Navbar: React.FC = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <nav style={{
-      backgroundColor: '#f8f9fa',
-      padding: '1rem',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-      position: 'relative',
-      zIndex: 100,
+    <nav className="bg-gray-800 text-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center text-2xl font-bold">
+            <Link href="/"> Teeny Villa </Link>
+            <div className="hidden md:block">
+              <Link href="/"className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Home</Link>
+              <Link href="/about"className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">About</Link>
+              <Link href="/contact"className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Contact</Link>
+              <Link href="/gallery"className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Gallery</Link>
+            </div>
+          </div>
+          <div className="-mr-2 flex md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white"
+            >
+              <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                {isMenuOpen ? (
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
 
-    }}>
-      <Link href="/" style={{ fontSize: '1.5em', fontWeight: 'bold', textDecoration: 'none', color: '#333' }}>
-        Teeny Villa
-      </Link>
-      
-      {/* Desktop Navigation - Hidden on mobile */}
-      <ul className={styles.hideOnMobile} style={{
-        listStyleType: 'none',
-        padding: 0,
-        margin: 0,
-        display: 'flex',
-        gap: '20px',
-      }}>
-        <li style={isActive('/') ? {color: '#007bff', fontWeight: 'bold'} : {}}>
-          <Link href="/" style={{ textDecoration: 'none', color: '#333', transition: 'color 0.3s ease' }}>Home</Link>
-        </li>
-        <li style={isActive('/about') ? {color: '#007bff', fontWeight: 'bold'} : {}}>
-          <Link href="/about" style={{ textDecoration: 'none', color: '#333', transition: 'color 0.3s ease' }}>About</Link>
-        </li>
-        <li style={isActive('/contact') ? {color: '#007bff', fontWeight: 'bold'} : {}}>
-          <Link href="/contact" style={{ textDecoration: 'none', color: '#333', transition: 'color 0.3s ease' }}>Contact</Link>
-        </li>
-      </ul>
-
-      {/* Toggle Button for Mobile */}
-      <button 
-        onClick={toggleMenu} 
-        style={{ 
-          background: 'none', 
-          border: 'none', 
-          cursor: 'pointer',
-          fontSize: '1.5em'
-        }}
-        className={styles.hideOnDesktop}
-      >
-        {isMenuOpen ? <FaTimes /> : <FaBars />}
-      </button>
-
-      {/* Mobile Side Panel */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: isMenuOpen ? 0 : '-100%',
-        width: '250px',
-        height: '100vh',
-        backgroundColor: '#f8f9fa',
-        transition: 'left 0.3s ease-in-out',
-        zIndex: 10,
-        overflowY: 'auto',
-      }}>
-        <ul style={{
-          listStyleType: 'none',
-          padding: '20px',
-          margin: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '15px',
-        }}>
-          <li style={isActive('/') ? {color: '#007bff', fontWeight: 'bold'} : {}}>
-            <Link href="/" onClick={toggleMenu} style={{ textDecoration: 'none', color: '#333', transition: 'color 0.3s ease' }}>Home</Link>
-          </li>
-          <li style={isActive('/about') ? {color: '#007bff', fontWeight: 'bold'} : {}}>
-            <Link href="/about" onClick={toggleMenu} style={{ textDecoration: 'none', color: '#333', transition: 'color 0.3s ease' }}>About</Link>
-          </li>
-          <li style={isActive('/contact') ? {color: '#007bff', fontWeight: 'bold'} : {}}>
-            <Link href="/contact" onClick={toggleMenu} style={{ textDecoration: 'none', color: '#333', transition: 'color 0.3s ease' }}>Contact</Link>
-          </li>
-        </ul>
+      <div className={`${isMenuOpen ? "block" : "hidden"} md:hidden`}>
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <Link href="/"className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Home</Link>
+          <Link href="/about"className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">About</Link>
+          <Link href="/contact"className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Contact</Link>
+          <Link href="/gallery"className="hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Gallery</Link>
+        </div>
       </div>
     </nav>
   );
 };
 
+export default Navbar;*/
+
+import { useState } from "react";
+import Link from "next/link";  // ✅ Import Link for Next.js
+import { Menu, X } from "lucide-react";
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <nav className="bg-gray-900 text-white sticky top-0 w-full shadow-md z-100 py-6">
+      <div className="container mx-auto px-6 py-4 flex justify-center justify-items-center">
+        {/* Logo */}
+        <Link href="/" className="text-2xl font-bold">Teeny Villa</Link>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex space-x-4 w-full justify-center items-center">
+          <Link href="/" className="hover:text-gray-400">Home</Link>
+          <Link href="/about" className="hover:text-gray-400">About</Link>
+          <Link href="/gallery" className="hover:text-gray-400">Gallery</Link>
+          <Link href="/contact" className="hover:text-gray-400">Contact Us</Link>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden focus:outline-none"
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {/* Mobile Dropdown Menu (Sliding Animation) */}
+      {/* <div
+        className={`md:hidden absolute top-16 left-0 w-full bg-gray-800 transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+        }`}
+      >
+        <Link href="/" className="block px-6 py-3 hover:bg-gray-700">Home</Link>
+        <Link href="/about" className="block px-6 py-3 hover:bg-gray-700">About</Link>
+        <Link href="/gallery" className="block px-6 py-3 hover:bg-gray-700">Gallery</Link>
+        <Link href="/contact" className="block px-6 py-3 hover:bg-gray-700">Contact Us</Link>
+      </div> */}
+    </nav>
+  );
+};
+
 export default Navbar;
+
